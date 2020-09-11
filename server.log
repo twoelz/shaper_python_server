@@ -1,0 +1,107 @@
+09-09 17:31 root         INFO     Jackdaws love my big sphinx of quartz.
+09-09 17:31 myapp.area1  DEBUG    Quick zephyrs blow, vexing daft Jim.
+09-09 17:31 myapp.area1  INFO     How quickly daft jumping zebras vex.
+09-09 17:31 myapp.area2  WARNING  Jail zesty vixen who grabbed pay from quack.
+09-09 17:31 myapp.area2  ERROR    The five boxing wizards jump quickly.
+09-09 17:31 root         INFO     /home/thomas/Dropbox/workspace/shaper_repo/shaper/shaper_python_server/save
+09-09 17:31 root         INFO     INFO track
+09-09 17:31 root         CRITICAL CRITICAL track
+09-09 17:31 root         DEBUG    DEBUG track
+09-09 17:31 asyncio      DEBUG    Using selector: EpollSelector
+09-09 17:32 websockets.protocol DEBUG    server - state = CONNECTING
+09-09 17:32 websockets.protocol DEBUG    server - event = connection_made(<_SelectorSocketTransport fd=8 read=idle write=<idle, bufsize=0>>)
+09-09 17:32 websockets.protocol DEBUG    server - event = data_received(<323 bytes>)
+09-09 17:32 websockets.server DEBUG    server < GET / HTTP/1.1
+09-09 17:32 websockets.server DEBUG    server < Headers([('user-agent', 'Dart/2.10 (dart:io)'), ('connection', 'Upgrade'), ('cache-control', 'no-cache'), ('accept-encoding', 'gzip'), ('content-length', '0'), ('sec-websocket-version', '13'), ('host', 'localhost:8765'), ('sec-websocket-extensions', 'permessage-deflate; client_max_window_bits'), ('sec-websocket-key', '948Pj8jDLc0G8bNIrTnl5g=='), ('upgrade', 'websocket')])
+09-09 17:32 websockets.server DEBUG    server > HTTP/1.1 101 Switching Protocols
+09-09 17:32 websockets.server DEBUG    server > Headers([('Upgrade', 'websocket'), ('Connection', 'Upgrade'), ('Sec-WebSocket-Accept', 'DVMz69IxhUdFjQrveBINDUWV4zc='), ('Sec-WebSocket-Extensions', 'permessage-deflate'), ('Date', 'Wed, 09 Sep 2020 15:32:18 GMT'), ('Server', 'Python/3.8 websockets/8.1')])
+09-09 17:32 websockets.protocol DEBUG    server - state = OPEN
+09-09 17:32 websockets.protocol DEBUG    server - event = data_received(<18 bytes>)
+09-09 17:32 websockets.protocol DEBUG    server < Frame(fin=True, opcode=1, data=b'connected!', rsv1=False, rsv2=False, rsv3=False)
+09-09 17:32 websockets.protocol DEBUG    server - state = CLOSING
+09-09 17:32 websockets.protocol DEBUG    server > Frame(fin=True, opcode=8, data=b'\x03\xe8', rsv1=False, rsv2=False, rsv3=False)
+09-09 17:32 websockets.protocol DEBUG    server - event = data_received(<8 bytes>)
+09-09 17:32 websockets.protocol DEBUG    server < Frame(fin=True, opcode=8, data=b'\x03\xe8', rsv1=False, rsv2=False, rsv3=False)
+09-09 17:32 websockets.protocol DEBUG    server x half-closing TCP connection
+09-09 17:32 websockets.protocol DEBUG    server - event = eof_received()
+09-09 17:32 websockets.protocol DEBUG    server - event = connection_lost(None)
+09-09 17:32 websockets.protocol DEBUG    server - state = CLOSED
+09-09 17:32 websockets.protocol DEBUG    server x code = 1000, reason = [no reason]
+09-09 17:33 websockets.protocol DEBUG    server - state = CONNECTING
+09-09 17:33 websockets.protocol DEBUG    server - event = connection_made(<_SelectorSocketTransport fd=8 read=idle write=<idle, bufsize=0>>)
+09-09 17:33 websockets.protocol DEBUG    server - event = data_received(<322 bytes>)
+09-09 17:33 websockets.server DEBUG    server < GET / HTTP/1.1
+09-09 17:33 websockets.server DEBUG    server < Headers([('user-agent', 'Dart/2.10 (dart:io)'), ('connection', 'Upgrade'), ('cache-control', 'no-cache'), ('accept-encoding', 'gzip'), ('content-length', '0'), ('sec-websocket-version', '13'), ('host', '10.0.2.2:8765'), ('sec-websocket-extensions', 'permessage-deflate; client_max_window_bits'), ('sec-websocket-key', 'sMb4lXm/iPT9E8UXfp6PMw=='), ('upgrade', 'websocket')])
+09-09 17:33 websockets.server DEBUG    server > HTTP/1.1 101 Switching Protocols
+09-09 17:33 websockets.server DEBUG    server > Headers([('Upgrade', 'websocket'), ('Connection', 'Upgrade'), ('Sec-WebSocket-Accept', 'auScbou1Yjcm53dbNZd3AQXjpnE='), ('Sec-WebSocket-Extensions', 'permessage-deflate'), ('Date', 'Wed, 09 Sep 2020 15:33:30 GMT'), ('Server', 'Python/3.8 websockets/8.1')])
+09-09 17:33 websockets.protocol DEBUG    server - state = OPEN
+09-09 17:33 websockets.protocol DEBUG    server - event = data_received(<18 bytes>)
+09-09 17:33 websockets.protocol DEBUG    server < Frame(fin=True, opcode=1, data=b'connected!', rsv1=False, rsv2=False, rsv3=False)
+09-09 17:33 websockets.protocol DEBUG    server - state = CLOSING
+09-09 17:33 websockets.protocol DEBUG    server > Frame(fin=True, opcode=8, data=b'\x03\xe8', rsv1=False, rsv2=False, rsv3=False)
+09-09 17:33 websockets.protocol DEBUG    server - event = data_received(<8 bytes>)
+09-09 17:33 websockets.protocol DEBUG    server < Frame(fin=True, opcode=8, data=b'\x03\xe8', rsv1=False, rsv2=False, rsv3=False)
+09-09 17:33 websockets.protocol DEBUG    server x half-closing TCP connection
+09-09 17:33 websockets.protocol DEBUG    server - event = eof_received()
+09-09 17:33 websockets.protocol DEBUG    server - event = connection_lost(None)
+09-09 17:33 websockets.protocol DEBUG    server - state = CLOSED
+09-09 17:33 websockets.protocol DEBUG    server x code = 1000, reason = [no reason]
+09-09 17:33 websockets.protocol DEBUG    server - state = CONNECTING
+09-09 17:33 websockets.protocol DEBUG    server - event = connection_made(<_SelectorSocketTransport fd=8 read=idle write=<idle, bufsize=0>>)
+09-09 17:33 websockets.protocol DEBUG    server - event = data_received(<322 bytes>)
+09-09 17:33 websockets.server DEBUG    server < GET / HTTP/1.1
+09-09 17:33 websockets.server DEBUG    server < Headers([('user-agent', 'Dart/2.10 (dart:io)'), ('connection', 'Upgrade'), ('cache-control', 'no-cache'), ('accept-encoding', 'gzip'), ('content-length', '0'), ('sec-websocket-version', '13'), ('host', '10.0.2.2:8765'), ('sec-websocket-extensions', 'permessage-deflate; client_max_window_bits'), ('sec-websocket-key', 'ZSMYVbn3OhAERKXotmDg4g=='), ('upgrade', 'websocket')])
+09-09 17:33 websockets.server DEBUG    server > HTTP/1.1 101 Switching Protocols
+09-09 17:33 websockets.server DEBUG    server > Headers([('Upgrade', 'websocket'), ('Connection', 'Upgrade'), ('Sec-WebSocket-Accept', 'fgvsgLFKshiGdDciJg+CIjaAgv8='), ('Sec-WebSocket-Extensions', 'permessage-deflate'), ('Date', 'Wed, 09 Sep 2020 15:33:47 GMT'), ('Server', 'Python/3.8 websockets/8.1')])
+09-09 17:33 websockets.protocol DEBUG    server - state = OPEN
+09-09 17:33 websockets.protocol DEBUG    server - event = data_received(<18 bytes>)
+09-09 17:33 websockets.protocol DEBUG    server < Frame(fin=True, opcode=1, data=b'connected!', rsv1=False, rsv2=False, rsv3=False)
+09-09 17:33 websockets.protocol DEBUG    server - state = CLOSING
+09-09 17:33 websockets.protocol DEBUG    server > Frame(fin=True, opcode=8, data=b'\x03\xe8', rsv1=False, rsv2=False, rsv3=False)
+09-09 17:33 websockets.protocol DEBUG    server - event = data_received(<6 bytes>)
+09-09 17:33 websockets.protocol DEBUG    server - event = data_received(<2 bytes>)
+09-09 17:33 websockets.protocol DEBUG    server < Frame(fin=True, opcode=8, data=b'\x03\xe8', rsv1=False, rsv2=False, rsv3=False)
+09-09 17:33 websockets.protocol DEBUG    server x half-closing TCP connection
+09-09 17:33 websockets.protocol DEBUG    server - event = eof_received()
+09-09 17:33 websockets.protocol DEBUG    server - event = connection_lost(None)
+09-09 17:33 websockets.protocol DEBUG    server - state = CLOSED
+09-09 17:33 websockets.protocol DEBUG    server x code = 1000, reason = [no reason]
+09-09 17:33 websockets.protocol DEBUG    server - state = CONNECTING
+09-09 17:33 websockets.protocol DEBUG    server - event = connection_made(<_SelectorSocketTransport fd=8 read=idle write=<idle, bufsize=0>>)
+09-09 17:33 websockets.protocol DEBUG    server - event = data_received(<322 bytes>)
+09-09 17:33 websockets.server DEBUG    server < GET / HTTP/1.1
+09-09 17:33 websockets.server DEBUG    server < Headers([('user-agent', 'Dart/2.10 (dart:io)'), ('connection', 'Upgrade'), ('cache-control', 'no-cache'), ('accept-encoding', 'gzip'), ('content-length', '0'), ('sec-websocket-version', '13'), ('host', '10.0.2.2:8765'), ('sec-websocket-extensions', 'permessage-deflate; client_max_window_bits'), ('sec-websocket-key', 'hYiRUDLXXRCQLCzucQcKfg=='), ('upgrade', 'websocket')])
+09-09 17:33 websockets.server DEBUG    server > HTTP/1.1 101 Switching Protocols
+09-09 17:33 websockets.server DEBUG    server > Headers([('Upgrade', 'websocket'), ('Connection', 'Upgrade'), ('Sec-WebSocket-Accept', 'EH+h5Yu7erhQZ7voe6QivFCFM7A='), ('Sec-WebSocket-Extensions', 'permessage-deflate'), ('Date', 'Wed, 09 Sep 2020 15:33:52 GMT'), ('Server', 'Python/3.8 websockets/8.1')])
+09-09 17:33 websockets.protocol DEBUG    server - state = OPEN
+09-09 17:33 websockets.protocol DEBUG    server - event = data_received(<18 bytes>)
+09-09 17:33 websockets.protocol DEBUG    server < Frame(fin=True, opcode=1, data=b'connected!', rsv1=False, rsv2=False, rsv3=False)
+09-09 17:33 websockets.protocol DEBUG    server - state = CLOSING
+09-09 17:33 websockets.protocol DEBUG    server > Frame(fin=True, opcode=8, data=b'\x03\xe8', rsv1=False, rsv2=False, rsv3=False)
+09-09 17:33 websockets.protocol DEBUG    server - event = data_received(<6 bytes>)
+09-09 17:33 websockets.protocol DEBUG    server - event = data_received(<2 bytes>)
+09-09 17:33 websockets.protocol DEBUG    server < Frame(fin=True, opcode=8, data=b'\x03\xe8', rsv1=False, rsv2=False, rsv3=False)
+09-09 17:33 websockets.protocol DEBUG    server x half-closing TCP connection
+09-09 17:33 websockets.protocol DEBUG    server - event = eof_received()
+09-09 17:33 websockets.protocol DEBUG    server - event = connection_lost(None)
+09-09 17:33 websockets.protocol DEBUG    server - state = CLOSED
+09-09 17:33 websockets.protocol DEBUG    server x code = 1000, reason = [no reason]
+09-09 18:58 websockets.protocol DEBUG    server - state = CONNECTING
+09-09 18:58 websockets.protocol DEBUG    server - event = connection_made(<_SelectorSocketTransport fd=8 read=idle write=<idle, bufsize=0>>)
+09-09 18:58 websockets.protocol DEBUG    server - event = data_received(<322 bytes>)
+09-09 18:58 websockets.server DEBUG    server < GET / HTTP/1.1
+09-09 18:58 websockets.server DEBUG    server < Headers([('user-agent', 'Dart/2.10 (dart:io)'), ('connection', 'Upgrade'), ('cache-control', 'no-cache'), ('accept-encoding', 'gzip'), ('content-length', '0'), ('sec-websocket-version', '13'), ('host', '10.0.2.2:8765'), ('sec-websocket-extensions', 'permessage-deflate; client_max_window_bits'), ('sec-websocket-key', 'x/ZAItLwqhT56H8uaLdLqg=='), ('upgrade', 'websocket')])
+09-09 18:58 websockets.server DEBUG    server > HTTP/1.1 101 Switching Protocols
+09-09 18:58 websockets.server DEBUG    server > Headers([('Upgrade', 'websocket'), ('Connection', 'Upgrade'), ('Sec-WebSocket-Accept', '61lO6vGjT2HHitZv/4sfEsr99Sc='), ('Sec-WebSocket-Extensions', 'permessage-deflate'), ('Date', 'Wed, 09 Sep 2020 16:58:13 GMT'), ('Server', 'Python/3.8 websockets/8.1')])
+09-09 18:58 websockets.protocol DEBUG    server - state = OPEN
+09-09 18:58 websockets.protocol DEBUG    server - event = data_received(<18 bytes>)
+09-09 18:58 websockets.protocol DEBUG    server < Frame(fin=True, opcode=1, data=b'connected!', rsv1=False, rsv2=False, rsv3=False)
+09-09 18:58 websockets.protocol DEBUG    server - state = CLOSING
+09-09 18:58 websockets.protocol DEBUG    server > Frame(fin=True, opcode=8, data=b'\x03\xe8', rsv1=False, rsv2=False, rsv3=False)
+09-09 18:58 websockets.protocol DEBUG    server - event = data_received(<8 bytes>)
+09-09 18:58 websockets.protocol DEBUG    server < Frame(fin=True, opcode=8, data=b'\x03\xe8', rsv1=False, rsv2=False, rsv3=False)
+09-09 18:58 websockets.protocol DEBUG    server x half-closing TCP connection
+09-09 18:58 websockets.protocol DEBUG    server - event = eof_received()
+09-09 18:58 websockets.protocol DEBUG    server - event = connection_lost(None)
+09-09 18:58 websockets.protocol DEBUG    server - state = CLOSED
+09-09 18:58 websockets.protocol DEBUG    server x code = 1000, reason = [no reason]

@@ -1,0 +1,1 @@
+pyinstaller --paths /home/thomas/Dropbox/workspace/shaper_repo/shaper/shaper_python_server/venv/lib/python3.8/site-packages server.py

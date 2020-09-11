@@ -1,0 +1,1 @@
+pyinstaller --paths D:\Dropbox\workspace\shaper_repo\shaper\shaper_python_server\venvwin\Lib\site-packages\ --distpath ./windist --workpath ./winbuild server.py
