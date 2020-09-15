@@ -184,6 +184,48 @@ async def connect(websocket, path):
 class Connections:
     player_socket = {}
 
+    async def connect(self, websocket, path):
+        name = await websocket.recv()
+        print(f"< {name}")
+
+        if name != 'admin' and None in self.player_socket.values():
+
+            player = None
+            for i in range(NUMBER_OF_PLAYERS):
+                if self.player_socket[i] is None:
+                    player = i
+                    break
+
+            if player is None:
+                raise Exception('There should be a valid player')
+
+            self.player_socket[player] = websocket
+
+            greeting = f"Hello {name}! You are player {player}"
+
+            await websocket.send(greeting)
+            print(f"> {greeting}")
+
+            await websocket.send(json.dumps({'player': player}))
+
+            # register(websocket) sends user_event() to websocket
+            await register(websocket)
+            try:
+                await websocket.send(state_event())
+                async for message in websocket:
+                    data = json.loads(message)
+                    if data["action"] == "minus":
+                        STATE["value"] -= 1
+                        await notify_state()
+                    elif data["action"] == "plus":
+                        STATE["value"] += 1
+                        await notify_state()
+                    else:
+                        logging.error("unsupported event: {}", data)
+            finally:
+                await unregister(websocket)
+                self.player_socket[player] = None
+
 
 class Container:
     pass
@@ -199,7 +241,7 @@ try:
     c = Connections()
     cfg = Container()
 
-    start_server = websockets.serve(connect, "localhost", 8765)
+    start_server = websockets.serve(c.connect, "localhost", 8765)
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
 except Exception as e:
