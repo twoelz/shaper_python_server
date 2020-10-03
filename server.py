@@ -129,16 +129,13 @@ USERS = set()
 
 ADMIN = None
 
-# TODO: REMOVE NUMBER OF PLAYERS, USE CONFIG INSTEAD
-NUMBER_OF_PLAYERS = 4
-
 
 def state_event():
     return json.dumps({"type": "state", **STATE})
 
 
-def users_event():
-    return json.dumps({"type": "users", "count": len(USERS)})
+# def users_event():
+#     return json.dumps({"type": "users", "count": len(self.)})
 
 
 async def notify_state():
@@ -148,68 +145,138 @@ async def notify_state():
 
 
 class Connections:
-    player_socket = {}
+    player_sockets = set()
+    players_in = set()
+
+    #TODO check if needed
+    player_names = {}
+
+    # chat variable
+    previous_chat_sender = ''
+
+    # def setup(self):
+    #     # setup after configs are loaded, just before first websocket connection
+    #     for i in range(cfg.exp['main']['number of players']):
+    #         self.player_socket[i] = None
+
+    # async def disconnect(self, player, websocket):
+    #     await self.unregister_player(player, websocket)
+
+    async def send_configs(self, websocket):
+
+        cfg.exp.dict()
+        await websocket.send(json.dumps({'type': 'configs',
+                                         'exp': json.dumps(cfg.exp.dict()),
+                                         's_msg': json.dumps(cfg.s_msg.dict()),
+                                         }))
+
+    async def connect_admin(self, websocket):
+        # TODO: admin
+        pass
 
     async def connect(self, websocket, path):
         name = await websocket.recv()
-        print(f"< {name}")
+        if name == 'admin':
+            await self.connect_admin(websocket)
+        elif len(self.player_sockets) < cfg.exp['main']['number of players']:
+            await self.connect_player(name, websocket)
+        else:
+            logging.error('player tried to connect, room was full')
+            # TODO: close websocket?
 
-        if name != 'admin' and None in self.player_socket.values():
+    async def connect_player(self, name, websocket):
+        player = None
+        for i in range(cfg.exp['main']['number of players']):
+            if i not in self.players_in:
+                player = i
+                break
+        if player is None:
+            error = 'there should be a valid player'
+            logging.error(error)
+            raise Exception(error)
 
-            player = None
-            for i in range(NUMBER_OF_PLAYERS):
-                if self.player_socket[i] is None:
-                    player = i
-                    break
+        # register, accept & send configs to player
+        await self.register_player(player, name, websocket)
+        await websocket.send(json.dumps({'type': 'accept player',
+                                         'player': player,
+                                         }))
+        await self.send_configs(websocket)
 
-            if player is None:
-                raise Exception('There should be a valid player')
+        # listen to player
+        try:
+            # await websocket.send(state_event())
+            async for message in websocket:
+                logging.info(message)
+                data = json.loads(message)
+                if 'action' not in data.keys():
+                    logging.error("no action in data received: {}", data)
+                else:
+                    action = data['action']
+                    await self.player_action_received(player, action, data, websocket)
+        finally:
+            await self.unregister_player(player, websocket)
 
-            self.player_socket[player] = websocket
+    async def player_action_received(self, player, action, data, websocket):
+        if action == "disconnect":
+            await self.unregister_player(player, websocket)
+            return
+        elif action == 'chat':
+            await self.chat_message_received(data['chat'], websocket)
+            print(data['chat'])
+            return
+        elif action == "something else":
+            # do something else
+            return
+        else:
+            logging.error("unsupported event: {}", data)
 
-            greeting = f"Hello {name}! You are player {player}"
+    async def chat_message_received(self, chat_message, websocket):
+        logging.info(f'Player{websocket.player_number} {websocket.player_name}: {chat_message}')
+        sender_name = websocket.player_name
+        sender_number = websocket.player_number
+        same_sender = f'{sender_number}{sender_name}' == self.previous_chat_sender
 
-            await websocket.send(greeting)
-            print(f"> {greeting}")
+        # TODO: record chat message here
+        # send it to all players registered
+        for player_socket in self.player_sockets:
+            await player_socket.send(json.dumps({'game data': 'chat message',
+                                                 'sender number': sender_number,
+                                                 'sender name': sender_name,
+                                                 'same sender': same_sender,
+                                                 'chat message': chat_message}))
+        self.previous_chat_sender = f'{sender_number}{sender_name}'
 
-            await websocket.send(json.dumps({'player': player}))
 
-            # register(websocket) sends user_event() to websocket
-            await self.register(websocket)
-            try:
-                await websocket.send(state_event())
-                async for message in websocket:
-                    data = json.loads(message)
-                    if data["action"] == "minus":
-                        STATE["value"] -= 1
-                        await notify_state()
-                    elif data["action"] == "plus":
-                        STATE["value"] += 1
-                        await notify_state()
-                    else:
-                        logging.error("unsupported event: {}", data)
-            finally:
-                await self.unregister(websocket)
-                self.player_socket[player] = None
-
-    async def register(self, websocket):
-        USERS.add(websocket)
+    async def register_player(self, player, name, websocket):
+        logging.info(f'Player {player} registered with name: {name}')
+        websocket.player_name = name
+        websocket.player_number = player
+        self.player_sockets.add(websocket)
+        self.players_in.add(player)
+        self.player_names[player] = name
         await self.notify_users()
 
-    async def unregister(self, websocket):
-        USERS.remove(websocket)
+    async def unregister_player(self, player, websocket):
+        print('removing player')
+        if websocket in self.player_sockets:
+            self.player_sockets.remove(websocket)
+        if player in self.players_in:
+            self.players_in.remove(player)
+        if player in self.player_names.keys():
+            self.player_names[player] = ''
         await self.notify_users()
 
     async def notify_users(self):
-        if USERS:  # asyncio.wait doesn't accept an empty list
-            message = users_event()
-            await asyncio.wait([user.send(message) for user in USERS])
+        if self.players_in:  # asyncio.wait doesn't accept an empty list
+            message = json.dumps({'type': 'print',
+                                 'message': 'players in: {}'.format(self.players_in)})
+            await asyncio.wait([player_socket.send(message) for player_socket in self.player_sockets])
 
 
 class ConfigContainer:
-    server = {}
-    s_msg = {}
-    exp = {}
+    server = ConfigObj()
+    s_msg = ConfigObj()
+    exp = ConfigObj()
 
 
 def eg_cancel_server():
@@ -243,6 +310,10 @@ def get_experiment(exp_dir, define_experiment):
     if experiment is None:
         # user closed choice box
         eg_cancel_server()
+    if experiment not in experiments:
+        eg.msgbox('please create the new experiment file in config/experiments')
+        eg_cancel_server()
+    # if experiment ==
     return experiment
 
 
@@ -281,11 +352,7 @@ def get_group(save_dir, define_group):
     return group
 
 
-def main():
-    global c
-    # global cfg
-    c = Connections()
-    # cfg = Container()
+def setup_configs():
 
     cfg_dir = DIR / 'config'
     save_dir = DIR / 'saved'
@@ -311,6 +378,10 @@ def main():
                            configspec=str(spec_dir / 'spec_server.ini'),
                            encoding='UTF8')
     validate_config(cfg.server)
+
+    if cfg.server['network']['ip'] in ['', 'none', 'None']:
+        logging.info('ip is None.')
+        cfg.server['network']['ip'] = None
 
     define_group = string_to_bool(cfg.server['define group'])
     group = get_group(save_dir, define_group)
@@ -349,11 +420,18 @@ def main():
         cfg.exp.initial_comment = ['# experiment: {}\n# group: {}'.format(experiment, group), ' ']
         cfg.exp.write()
 
-    start_server = websockets.serve(c.connect, "localhost", 8765)
+
+def main():
+    setup_configs()
+    # c.setup()
+    ip = cfg.server['network']['ip']
+    port = cfg.server['network']['port']
+    start_server = websockets.serve(c.connect, ip, port)
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
 
 
+c = Connections()
 cfg = ConfigContainer()
 
 try:
