@@ -16,7 +16,6 @@ __version__ = '0.0.1'
 __docformat__ = 'restructuredtext'
 __author__ = 'Thomas Anatol da Rocha Woelz'
 
-
 import asyncio
 import websockets
 import json
@@ -105,22 +104,22 @@ console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 
 # Now, we can log to the root logger, or any other logger. First the root...
-logging.info('Jackdaws love my big sphinx of quartz.')
+# logging.info('Jackdaws love my big sphinx of quartz.')
 
 # # Now, define a couple of other loggers which might represent areas in your
 # # application:
 #
-logger1 = logging.getLogger('myapp.area1')
-logger2 = logging.getLogger('myapp.area2')
-
-logger1.debug('Quick zephyrs blow, vexing daft Jim.')
-logger1.info('How quickly daft jumping zebras vex.')
-logger2.warning('Jail zesty vixen who grabbed pay from quack.')
-logger2.error('The five boxing wizards jump quickly.')
-
-logging.info('INFO track')
-logging.critical('CRITICAL track')
-logging.debug('DEBUG track')
+# logger1 = logging.getLogger('myapp.area1')
+# logger2 = logging.getLogger('myapp.area2')
+#
+# logger1.debug('Quick zephyrs blow, vexing daft Jim.')
+# logger1.info('How quickly daft jumping zebras vex.')
+# logger2.warning('Jail zesty vixen who grabbed pay from quack.')
+# logger2.error('The five boxing wizards jump quickly.')
+#
+# logging.info('INFO track')
+# logging.critical('CRITICAL track')
+# logging.debug('DEBUG track')
 
 # TODO: REMOVE STATE
 STATE = {"value": 0}
@@ -148,7 +147,7 @@ class Connections:
     player_sockets = set()
     players_in = set()
 
-    #TODO check if needed
+    # TODO check if needed
     player_names = {}
 
     # chat variable
@@ -204,15 +203,21 @@ class Connections:
 
         # listen to player
         try:
-            # await websocket.send(state_event())
             async for message in websocket:
                 logging.info(message)
-                data = json.loads(message)
-                if 'action' not in data.keys():
-                    logging.error("no action in data received: {}", data)
+                if message[:8] == '__chat__':
+                    await self.player_action_received(player, 'chat', message[8:], websocket)
                 else:
-                    action = data['action']
-                    await self.player_action_received(player, action, data, websocket)
+                    try:
+                        data = json.loads(message)
+                    except json.decoder.JSONDecodeError as err:
+                        logging.error("JSONDecodeError: {0}".format(err))
+                        data = {}
+                    if 'action' not in data.keys():
+                        logging.error("no action in data received: {}", data)
+                    else:
+                        action = data['action']
+                        await self.player_action_received(player, action, data, websocket)
         finally:
             await self.unregister_player(player, websocket)
 
@@ -221,8 +226,8 @@ class Connections:
             await self.unregister_player(player, websocket)
             return
         elif action == 'chat':
-            await self.chat_message_received(data['chat'], websocket)
-            print(data['chat'])
+            await self.chat_message_received(data, websocket)
+            print(data)
             return
         elif action == "something else":
             # do something else
@@ -246,7 +251,6 @@ class Connections:
                                                  'chat message': chat_message}))
         self.previous_chat_sender = f'{sender_number}{sender_name}'
 
-
     async def register_player(self, player, name, websocket):
         logging.info(f'Player {player} registered with name: {name}')
         websocket.player_name = name
@@ -269,7 +273,7 @@ class Connections:
     async def notify_users(self):
         if self.players_in:  # asyncio.wait doesn't accept an empty list
             message = json.dumps({'type': 'print',
-                                 'message': 'players in: {}'.format(self.players_in)})
+                                  'message': 'players in: {}'.format(self.players_in)})
             await asyncio.wait([player_socket.send(message) for player_socket in self.player_sockets])
 
 
@@ -353,7 +357,6 @@ def get_group(save_dir, define_group):
 
 
 def setup_configs():
-
     cfg_dir = DIR / 'config'
     save_dir = DIR / 'saved'
     exp_dir = cfg_dir / 'experiments'
