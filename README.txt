@@ -1,6 +1,6 @@
 shaper server
 Copyright (c) 2020 Thomas Anatol da Rocha Woelz
 All rights reserved.
-BSD type license: check doc folder for details
+BSD type license: check docs folder for details
 
-TODO: add doc folder ;-)
+TODO: add licence to docs folder
