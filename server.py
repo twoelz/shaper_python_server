@@ -13,6 +13,7 @@ Server
 # BSD type license: check doc folder for details
 
 __version__ = '1.0.0+3'
+
 __docformat__ = 'restructuredtext'
 __author__ = 'Thomas Anatol da Rocha Woelz'
 
