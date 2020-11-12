@@ -12,7 +12,7 @@ Server
 # All rights reserved.
 # BSD type license: check doc folder for details
 
-__version__ = '0.0.1'
+__version__ = '1.0.0+3'
 __docformat__ = 'restructuredtext'
 __author__ = 'Thomas Anatol da Rocha Woelz'
 
@@ -398,7 +398,6 @@ def setup_announcement():  # using https://jsonbin.io/ service
         'hour': datetime.datetime.now().hour,
         'minute': datetime.datetime.now().minute,
         'second': datetime.datetime.now().second,
-
     }
 
     # this flag needs to change to False to go ahead for public announcement
@@ -570,6 +569,7 @@ class Connections:
         await websocket.send(json.dumps({'type': 'configs',
                                          'exp': json.dumps(cfg.exp.dict()),
                                          's_msg': json.dumps(cfg.s_msg.dict()),
+                                         'server': json.dumps(cfg.server.dict())
                                          }))
 
     async def connect_admin(self, websocket):
@@ -596,12 +596,24 @@ class Connections:
     async def connect_player(self, message, websocket):
         player = None
         try:
-            player_name, unique_id = json.loads(message)
-            logging.info(f'player name is: {player_name}, unique_id is: {unique_id}')
+            player_name, unique_id, version = json.loads(message)
+            logging.info(f'player name is: {player_name}, unique_id is: {unique_id}, version is: {version}')
+            logging.info(f'version is the same? {__version__ == version}')
         except (json.decoder.JSONDecodeError, ValueError) as error:
             logging.error('player name should be passed as a json list with name following a unique iq')
             logging.error(error)
             websocket.close()
+            return
+        if not version == __version__:
+            error_message = f'client version is: {version} and server version is: {__version__} Please update client ' \
+                            f'to same version '
+
+            logging.error(error_message)
+            await websocket.send(json.dumps({'type': 'error',
+                                             'message': error_message,
+                                             }))
+            await asyncio.sleep(2)
+            await websocket.close()
             return
         if unique_id in self.player_unique_ids.keys():
             logging.warning('player with unique_id reconnecting, but he was not removed properly \n'
@@ -616,12 +628,12 @@ class Connections:
                         # TODO: close old websocket? would be something like i.close(). maybe leave it alone.
                     else:
                         logging.warning('ignoring reconnect of unique id, since player name changed')
-                        websocket.close()
+                        await websocket.close()
                         return
 
         elif len(self.player_sockets) >= cfg.exp['main']['number of players']:
             logging.warning('player tried to connect, room was full')
-            websocket.close()
+            await websocket.close()
             return
 
         if player is None:

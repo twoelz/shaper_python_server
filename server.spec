@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['server.py'],
-             pathex=['D:\\Dropbox\\workspace\\shaper_repo\\shaper\\shaper_python_server\\venvwin\\Lib\\site-packages\\', 'D:\\Dropbox\\workspace\\shaper_repo\\shaper\\shaper_python_server'],
+             pathex=['/home/thomas/Dropbox/workspace/shaper_repo/shaper/shaper_python_server/venv/lib/python3.8/site-packages', '/home/thomas/Dropbox/workspace/shaper_repo/shaper/shaper_python_server'],
              binaries=[],
              datas=[],
              hiddenimports=[],
