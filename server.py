@@ -151,23 +151,25 @@ def announcement_private(announce_data):
     if 'SHAPER_IP_KEY' not in os.environ.keys():
         logging.warning('SHAPER_IP_KEY environment variable not found')
 
-    if str(cfg.server['network']['announce ip bin']).lower() == 'test:':
+    if str(cfg.server['network']['announce ip bin']).lower() == 'test':
         # use test bin and password
         cfg.server['network']['announce ip bin'] = cfg.hidden['test announce ip bin']
         cfg.server['network']['announce ip key'] = cfg.hidden['test announce ip key']
         logging.warning('SHAPER_IP_BIN and SHAPER_IP_KEY set in server.ini to use the test bin. Please create your '
                         'own bin soon, and stop using test bin.')
     elif (cfg.server['network']['announce ip bin'] == 'default') or \
-            (str(cfg.server['network']['announce ip bin']).len < 8) or \
-            (str(cfg.server['network']['announce ip key']).len < 8):
+            (len(str(cfg.server['network']['announce ip bin'])) < 8) or \
+            (len(str(cfg.server['network']['announce ip key'])) < 8):
         # bin and password lenght need to be larger than 7 letters
         # if not: use environment variable
-        if not ('SHAPER_IP_BIN' in os.environ.keys()) and \
-               ('SHAPER_IP_KEY' in os.environ.keys()):
+
+        if not ('SHAPER_IP_BIN' in os.environ.keys() and
+                'SHAPER_IP_KEY' in os.environ.keys()):
             error = 'No ip bin or ip key set. Please set them in server.ini or environment variables.'
             logging.error(error)
             eg.msgbox(error)
             eg_cancel_server()
+            return
         cfg.server['network']['announce ip bin'] = os.environ['SHAPER_IP_BIN']
         cfg.server['network']['announce ip key'] = os.environ['SHAPER_IP_KEY']
         logging.info(f"SHAPER_IP_BIN set from environmental variable: {cfg.server['network']['announce ip bin']}")
