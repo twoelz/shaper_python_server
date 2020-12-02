@@ -673,6 +673,9 @@ class Connections:
                     else:
                         action = data['action']
                         await self.player_action_received(player, action, data, websocket)
+        except websockets.exceptions.ConnectionClosedError:
+            logging.error(f'abnormal disconnection from player {player}, name: {player_name}')
+            # self.unregister_player(player, websocket)
         finally:
             await self.unregister_player(player, websocket)
 
@@ -718,12 +721,13 @@ class Connections:
         await self.notify_users()
 
     async def unregister_player(self, player, websocket):
-        logging.info('removing player')
+        logging.info(f'removing player: {player}')
         if websocket in self.player_sockets:
             self.player_sockets.remove(websocket)
         if player in self.players_in:
             self.players_in.remove(player)
         if player in self.player_names.keys():
+            logging.info(f'removed player name: {self.player_names[player]}')
             self.player_names[player] = ''
         # on purpose not clearing player_unique_id so that player may come back in the same place
         await self.notify_users()
