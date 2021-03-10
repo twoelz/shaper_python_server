@@ -380,7 +380,8 @@ def setup_announcement():  # using https://jsonbin.io/ service
         logging.error(error)
         eg.msgbox(error)
         return
-    if not cfg.server['network']['announce ip']:
+    # if not cfg.server['network']['announce ip']:
+    if (not cfg.server['network']['announce ip']) or cfg.server['network']['debug']:
         logging.warning('server config: will not announce ip')
         return
     logging.info('connected to the internet')
