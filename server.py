@@ -12,7 +12,7 @@ Server
 # All rights reserved.
 # BSD type license: check doc folder for details
 
-__version__ = '1.0.0+3'
+__version__ = '1.0.0+4'
 
 __docformat__ = 'restructuredtext'
 __author__ = 'Thomas Anatol da Rocha Woelz'
